@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin/Release/net8.0/publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/0ced5c89-c80e-4346-9ef1-c8dec89753cc/resourceGroups/demo-appservice/providers/Microsoft.Web/sites/haseendemoapp"
+}

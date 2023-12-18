@@ -1,0 +1,7 @@
+/home/p10/Documents/demo/bin/Release/net8.0/publish/demo
+/home/p10/Documents/demo/bin/Release/net8.0/publish/appsettings.Development.json
+/home/p10/Documents/demo/bin/Release/net8.0/publish/appsettings.json
+/home/p10/Documents/demo/bin/Release/net8.0/publish/demo.dll
+/home/p10/Documents/demo/bin/Release/net8.0/publish/demo.deps.json
+/home/p10/Documents/demo/bin/Release/net8.0/publish/demo.runtimeconfig.json
+/home/p10/Documents/demo/bin/Release/net8.0/publish/demo.pdb
