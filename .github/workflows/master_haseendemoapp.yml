@@ -54,4 +54,4 @@ jobs:
           app-name: 'haseendemoapp'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_75A6ED21ACDB48B083E70B0B768573BC }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F80EF62E05A0466388AA299B5C648C2D }}
