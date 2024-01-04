@@ -1,0 +1,69 @@
+trigger:
+- none
+ 
+stages:
+- stage: Build
+  displayName: 'Build'
+ 
+  jobs:
+  - job: BuildAndPublish
+ 
+    pool:
+      vmImage: ubuntu-latest
+    variables:
+      buildConfiguration: 'Release'
+
+ 
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+ 
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+ 
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish'
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        arguments: '--configuration $(buildConfiguration) --output $(build.ArtifactStagingDirectory)'
+ 
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    
+- stage: Deploy
+  displayName: 'Deploy the application'    
+
+  jobs:
+  - job: Deploy
+ 
+    pool:
+      vmImage: ubuntu-latest
+    
+    steps:
+    
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'specific'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Free Trial(0ced5c89-c80e-4346-9ef1-c8dec89753cc)'
+        appType: 'webApp'
+        WebAppName: 'haseendemoapp'
+        packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+    
