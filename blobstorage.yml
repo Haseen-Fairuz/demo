@@ -22,6 +22,16 @@ stages:
 
  
     steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK'
+      inputs:
+        version: '2.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - script: |
+        # Uninstall AzureRM module
+        Uninstall-Module -Name AzureRM -Force -ErrorAction SilentlyContinue
+      displayName: 'Uninstall AzureRM'
     - task: DotNetCoreCLI@2
       displayName: 'Restore'
       inputs:
