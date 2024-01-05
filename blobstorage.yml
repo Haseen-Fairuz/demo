@@ -16,22 +16,12 @@ stages:
   - job: BuildAndPublish
  
     pool:
-      vmImage: windows-latest
+      vmImage: ubuntu-latest
     variables:
       buildConfiguration: 'Release'
 
  
     steps:
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core SDK'
-      inputs:
-        version: '2.x'
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-
-    - script: |
-        # Uninstall AzureRM module
-        Uninstall-Module -Name AzureRM -Force -ErrorAction SilentlyContinue
-      displayName: 'Uninstall AzureRM'
     - task: DotNetCoreCLI@2
       displayName: 'Restore'
       inputs:
@@ -60,11 +50,11 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
     
-    - task: AzureFileCopy@5
+    - task: AzureCLI@2
+      displayName: 'Azure CLI - Upload to Blob Storage'
       inputs:
-        SourcePath: '$(Build.ArtifactStagingDirectory)'
         azureSubscription: 'Free Trial(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
-        Destination: 'AzureBlob'
-        storage: 'demoblobstoragev'
-        ContainerName: 'demo'
-        BlobPrefix: 'https://demoblobstoragev.blob.core.windows.net/demo'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage blob upload-batch --account-name demoblobstoragev --destination demo --source $(Build.ArtifactStagingDirectory) --pattern "*"
