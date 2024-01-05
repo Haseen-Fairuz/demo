@@ -51,6 +51,8 @@ stages:
         publishLocation: 'Container'
     
     - task: AzureFileCopy@5
+      condition: |
+        eq(variables['Agent.OS'], 'Windows_NT')
       inputs:
         SourcePath: '$(Build.ArtifactStagingDirectory)'
         azureSubscription: 'Free Trial(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
