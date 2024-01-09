@@ -46,24 +46,22 @@ stages:
 - stage: Deploy
   displayName: 'Deploy the application'    
 
-  jobs:
-  - job: Deploy
- 
-    pool:
-      vmImage: ubuntu-latest
-    
-    steps:
-    
-    - task: DownloadBuildArtifacts@1
-      inputs:
-        buildType: 'current'
-        downloadType: 'specific'
-        downloadPath: '$(System.ArtifactsDirectory)'
-    
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Free Trial(1)(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
-        appType: 'webApp'
-        WebAppName: 'haseendemoappv'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+  jobs:  
+    - deployment: Deploy
+      displayName: 'Deploy'
+      environment: dev
+      pool:
+        vmImage: ubuntu-latest
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: AzureWebApp@1
+              displayName: 'Deploy Azure WebApp'
+              inputs:
+                azureSubscription: 'Free Trial(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
+                appType: 'webApp'
+                appName: 'haseendemoappv'
+                package: 'Build.ArtifactStagingDirectory/**/*.zip'
+                deploymentMethod: 'auto'
