@@ -60,4 +60,10 @@ stages:
         downloadType: 'specific'
         downloadPath: '$(System.ArtifactsDirectory)'
     
-    
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Free Trial(1)(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
+        appType: 'webApp'
+        WebAppName: 'haseendemoappv'
+        packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
