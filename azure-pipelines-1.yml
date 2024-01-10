@@ -63,7 +63,7 @@ stages:
             - task: AzureWebApp@1
               displayName: 'Deploy Azure WebApp'
               inputs:
-                azureSubscription: '$(azuresubscription)'
+                azureSubscription: '$(demogroup.azuresubscription)'
                 appType: 'webApp'
                 appName: 'haseendemoappv'
                 package: '$(Pipeline.Workspace)/drop/**/*.zip'
