@@ -1,8 +1,6 @@
 trigger:
 - none
 
-variables:
-  group: demogroup
 
 stages:
 - stage: Build
@@ -63,7 +61,7 @@ stages:
             - task: AzureWebApp@1
               displayName: 'Deploy Azure WebApp'
               inputs:
-                azureSubscription: '$(demogroup.azuresubscription)'
+                azureSubscription: 'Free Trial(c76f3d6d-37b1-42f2-b26c-88cd0317d3ec)'
                 appType: 'webApp'
                 appName: 'haseendemoappv'
                 package: '$(Pipeline.Workspace)/drop/**/*.zip'
